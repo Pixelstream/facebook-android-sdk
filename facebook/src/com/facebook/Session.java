@@ -1006,6 +1006,35 @@ public class Session implements Serializable {
      * open it if it requires no user interaction (i.e. the token cache is
      * available and there are cached tokens).
      * 
+     * @param activity
+     *            The Activity that is opening the new Session.
+     * @param allowLoginUI
+     *            if false, only sets the active session and opens it if it does
+     *            not require user interaction
+     * @param callback
+     *            The {@link StatusCallback SessionStatusCallback} to notify
+     *            regarding Session state changes.
+     * @param permissions
+     *            The permissions to request.
+     * @return The new Session or null if one could not be created
+     */
+    public static Session openActiveSession(Activity activity, boolean allowLoginUI, StatusCallback callback,
+            List<String> permissions) {
+        return openActiveSession(activity, allowLoginUI, new OpenRequest(activity).setCallback(callback)
+                .setPermissions(permissions));
+    }
+
+    /**
+     * If allowLoginUI is true, this will create a new Session, make it active,
+     * and open it. If the default token cache is not available, then this will
+     * request basic permissions. If the default token cache is available and
+     * cached tokens are loaded, this will use the cached token and associated
+     * permissions.
+     * <p/>
+     * If allowedLoginUI is false, this will only create the active session and
+     * open it if it requires no user interaction (i.e. the token cache is
+     * available and there are cached tokens).
+     * 
      * @param context
      *            The Activity or Service creating this Session
      * @param fragment
